@@ -64,5 +64,18 @@ _.extend Meteor.Collection::,
     options.readPreference = "primary";
     _callMapReduce @_name, map, reduce, options
 
+# Extending Collection2 on the server
+_.extend Meteor.Collection2::,
 
+  distinct: (key) ->
+    #_collectionDistinct @_name, key, query, options
+    _futureWrapper @_name, "distinct", key
+
+  aggregate: (pipeline) ->
+    _futureWrapper @_name, "aggregate", pipeline
+
+  mapReduce: (map, reduce, options)->
+    options = options || {};
+    options.readPreference = "primary";
+    _callMapReduce @_name, map, reduce, options
 
